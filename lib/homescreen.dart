@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'favorite_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<Map<String, dynamic>> films;
@@ -35,120 +36,133 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: const [
-      Text(
-        "Selamat Datang",
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-      SizedBox(height: 8),
-      Text(
-        "Pilih film favoritmu",
-        style: TextStyle(color: Colors.white, fontSize: 14),
-        textAlign: TextAlign.center, 
-      ),
-    ],
-  ),
-)
+                SizedBox(height: 8),
+                Text(
+                  "Selamat Datang",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Pilih film favoritmu",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
           ),
-
           SizedBox(height: 16),
 
           // Daftar Film dalam GridView
           Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(12),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // 2 kolom
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.65, // proporsi kartu
-              ),
-              itemCount: widget.films.length,
-              itemBuilder: (context, index) {
-                final film = widget.films[index];
-                return GestureDetector(
-                  onTap: () {
-                    // pindah ke detail screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FilmDetailScreen(film: film),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 6,
-                          offset: Offset(2, 4),
-                        ),
-                      ],
+            child: widget.films.isNotEmpty
+                ? GridView.builder(
+                    padding: EdgeInsets.all(12),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.65,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(16)),
-                          child: Image.network(
-                            film["gambar"],
-                            height: 180,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                film["judul"],
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 14),
+                    itemCount: widget.films.length,
+                    itemBuilder: (context, index) {
+                      final film = widget.films[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FilmDetailScreen(film: film),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(2, 4),
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                "Rilis: ${film["tahun"]}",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[600]),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              // Gambar film
+                              ClipRRect(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(16),
+                                ),
+                                child: Image.asset(
+                                  film["gambar"],
+                                  height: 180,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+
+                              // Judul & Tahun
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      film["judul"],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Rilis : ${film["tahun"]}",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              // Tombol favorit
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      film["favorit"]
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: film["favorit"]
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      widget.toggleFavorite(index);
+                                    },
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Spacer(),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            icon: Icon(
-                              film["favorit"]
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: film["favorit"] ? Colors.red : Colors.grey,
-                            ),
-                            onPressed: () {
-                              widget.toggleFavorite(index);
-                            },
-                          ),
-                        )
-                      ],
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                      "Tidak ada film tersedia",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),
@@ -170,14 +184,22 @@ class FilmDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(film["gambar"], height: 300),
+            Image.asset(film["gambar"], height: 300, fit: BoxFit.cover),
             SizedBox(height: 16),
             Text(
               film["judul"],
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Text("Tahun Rilis: ${film["tahun"]}",
-                style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+            SizedBox(height: 8),
+            Text(
+              "Genre: ${film["genre"]}",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 4),
+            Text(
+              "Rilis: ${film["tahun"]}",
+              style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+            ),
             SizedBox(height: 16),
             Text(
               film["sinopsis"],

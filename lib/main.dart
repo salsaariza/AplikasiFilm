@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:test1/homescreen.dart'; 
+import 'homescreen.dart';
+import 'favorite_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,13 +15,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Poppins', // pakai font Poppins untuk seluruh aplikasi
       ),
       home: MainScreen(), // Panggil MainScreen sebagai halaman utama
     );
   }
 }
 
-// MainScreen akan mengatur bottom navigation (Film & Favorit)
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -31,43 +33,39 @@ class _MainScreenState extends State<MainScreen> {
   // Data film statis
   final List<Map<String, dynamic>> films = [
     {
-      "judul": "Pengabdi Setan",
-      "tahun": "2017",
-      "gambar": "c:\Users\salsa\OneDrive\Gambar\pengabdi_setan.jpeg",
+      "judul": "Dua Garis Biru",
+      "tahun": "2021",
+      "genre": "Asmara",
+      "gambar": "assets/images/dua_garis_biru.jpg",
       "sinopsis":
-          "menceritakan kisah seorang wanita bernama Rini dan keluarganya yang mengalami teror gaib setelah kematian ibu mereka. Ibu Rini meninggal setelah sakit bertahun-tahun, dan setelah kepergiannya, rumah keluarga mereka diteror oleh berbagai kejadian mistis. ",
+          "Bima dan Dara adalah sepasang kekasih yang masih duduk di bangku SMA. Pada usia 17 tahun, mereka nekat bersanggama di luar nikah. Dara pun hamil. Keduanya kemudian dihadapkan pada kehidupan yang tak terbayangkan bagi anak seusia mereka, kehidupan sebagai orangtua.",
       "favorit": false,
     },
     {
-      "judul": "Interstellar",
-      "tahun": "2014",
-      "gambar": "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg",
+      "judul": "1 Kakak & Ponakan",
+      "tahun": "2025",
+      "genre": "Keluarga",
+      "gambar": "assets/images/1k_7p.jpg",
       "sinopsis":
-          "Sekelompok penjelajah luar angkasa melakukan perjalanan melalui wormhole untuk mencari planet baru bagi kelangsungan hidup manusia.",
+          "Setelah kakak-kakaknya meninggal dunia mendadak, Hendarmoko, arsitek muda, tiba-tiba menjadi orangtua tunggal bagi para keponakannya. Ketika kesempatan yang lebih baik muncul, ia harus memilih antara cinta, karier, atau keponakan-keponakannya.",
       "favorit": false,
     },
     {
-      "judul": "The Dark Knight",
-      "tahun": "2008",
-      "gambar": "https://m.media-amazon.com/images/I/51G8cQ3wG3L._AC_.jpg",
+      "judul": "Perayaan Mati rasa",
+      "tahun": "2025",
+      "genre": "Keluarga",
+      "gambar": "assets/images/p_r_m.jpg",
       "sinopsis":
-          "Batman menghadapi Joker, penjahat yang ingin membawa kekacauan ke Gotham City.",
+          "Ian (Iqbaal Ramadhan), anak sulung yang merasa tertekan oleh ekspektasi orang tua dan perbandingan dengan adiknya yang sukses, Uta (Umay Shahab).",
       "favorit": false,
     },
     {
-      "judul": "Avengers: Endgame",
-      "tahun": "2019",
-      "gambar": "https://m.media-amazon.com/images/I/81ExhpBEbHL._AC_SY679_.jpg",
+      "judul": "Sayap - Sayap Patah",
+      "tahun": "2022",
+      "genre": "Aksi",
+      "gambar": "assets/images/s_s_p.jpeg",
       "sinopsis":
-          "Para Avengers bersatu kembali untuk membalikkan kehancuran yang dilakukan Thanos dan menyelamatkan alam semesta.",
-      "favorit": false,
-    },
-    {
-      "judul": "Parasite",
-      "tahun": "2019",
-      "gambar": "https://m.media-amazon.com/images/I/91z6a3Urn+L._AC_SY679_.jpg",
-      "sinopsis":
-          "Keluarga miskin menyusup ke dalam kehidupan keluarga kaya dengan cara yang cerdik, namun berakhir dalam tragedi.",
+          "Kisah cinta dua orang pasangan, Aji yang berprofesi sebagai anggota Densus 88 dan Nani istrinya.",
       "favorit": false,
     },
   ];
