@@ -1,86 +1,103 @@
 import 'package:flutter/material.dart';
-import 'homescreen.dart';
+import 'film_detail.dart';
 
 class FavoriteScreen extends StatelessWidget {
   final List<Map<String, dynamic>> films;
-  final Function(int) toggleFavorite;
 
-  FavoriteScreen({required this.films, required this.toggleFavorite});
+  const FavoriteScreen({super.key, required this.films});
 
   @override
   Widget build(BuildContext context) {
     // Filter hanya film favorit
-    final favoriteFilms = films.where((film) => film["favorit"] == true).toList();
+    final favoriteFilms = films.where((f) => f["favorit"] == true).toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Film Favorit"),
-        backgroundColor: const Color.fromARGB(255, 20, 47, 93),
-        centerTitle: true,
+    // Jika tidak ada film favorit
+    if (favoriteFilms.isEmpty) {
+      return Center(
+        child: Text(
+          "Belum ada film favorit",
+          style: TextStyle(fontSize: 16),
+        ),
+      );
+    }
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 0.65,
       ),
-      body: favoriteFilms.isEmpty
-          ? const Center(
-              child: Text(
-                "Belum ada film favorit",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+      itemCount: favoriteFilms.length,
+      itemBuilder: (context, index) {
+        final film = favoriteFilms[index];
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FilmDetailScreen(film: film),
               ),
-            )
-          : ListView.builder(
-              itemCount: favoriteFilms.length,
-              padding: const EdgeInsets.all(8),
-              itemBuilder: (context, index) {
-                final film = favoriteFilms[index];
-                // Dapatkan index asli di list films
-                final realIndex = films.indexOf(film);
-
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(
-                        film["gambar"] ?? "assets/images/default.jpg",
-                        width: 50,
-                        height: 70,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    title: GestureDetector(
-                      child: Text(
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 6,
+                  offset: Offset(2, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                  child: Image.asset(
+                    film["gambar"],
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
                         film["judul"],
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                         style: const TextStyle(
-                          color: Colors.blue,
                           fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                      onTap: () {
-                        // Navigasi ke FilmDetailScreen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FilmDetailScreen(film: film),
-                          ),
-                        );
-                      },
-                    ),
-                    subtitle: Text("Rilis: ${film["tahun"]}"),
-                    trailing: IconButton(
-                      icon: Icon(
-                        film["favorit"] ? Icons.favorite : Icons.favorite_border,
-                        color: film["favorit"] ? Colors.red : Colors.grey,
+                      const SizedBox(height: 4),
+                      Text(
+                        "Rilis : ${film["tahun"]}",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
                       ),
-                      onPressed: () {
-                        // Toggle favorit di HomeScreen
-                        toggleFavorite(realIndex);
-                      },
-                    ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ],
             ),
+          ),
+        );
+      },
     );
   }
 }
