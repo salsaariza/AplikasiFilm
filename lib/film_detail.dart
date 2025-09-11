@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
 
 class FilmDetailScreen extends StatelessWidget {
   final Map<String, dynamic> film;
@@ -9,14 +8,31 @@ class FilmDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(2255, 20, 47, 93),
-        foregroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context); // kembali ke layar sebelumnya (HomeScreen)
-          },
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          child: AppBar(
+            backgroundColor: const Color.fromARGB(255, 20, 47, 93),
+            foregroundColor: Colors.white,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context); // kembali ke layar sebelumnya (HomeScreen)
+              },
+            ),
+            title: const Text(
+              "Detail Film",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -46,7 +62,7 @@ class FilmDetailScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               "Rilis : ${film["tahun"]}",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.black,
                 fontFamily: 'Poppins',

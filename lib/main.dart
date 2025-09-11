@@ -24,10 +24,7 @@ class _MyAppState extends State<MyApp> {
       "genre": "Asmara",
       "gambar": "assets/images/dua_garis_biru.jpg",
       "sinopsis":
-          "Bima dan Dara adalah sepasang kekasih yang masih duduk di bangku SMA. "
-          "Pada usia 17 tahun, mereka nekat bersanggama di luar nikah. Dara pun hamil. "
-          "Keduanya kemudian dihadapkan pada kehidupan yang tak terbayangkan bagi anak seusia mereka, "
-          "kehidupan sebagai orangtua.",
+          "Bima dan Dara adalah sepasang kekasih yang masih duduk di bangku SMA. Pada usia 17 tahun, mereka nekat bersanggama di luar nikah. Dara pun hamil. Keduanya kemudian dihadapkan pada kehidupan yang tak terbayangkan bagi anak seusia mereka kehidupan sebagai orangtua.",
       "favorit": false,
     },
     {
@@ -40,7 +37,7 @@ class _MyAppState extends State<MyApp> {
           "Setelah kakak-kakaknya meninggal dunia mendadak, Hendarmoko, arsitek muda, tiba-tiba menjadi orangtua tunggal bagi para keponakannya. Ketika kesempatan yang lebih baik muncul, ia harus memilih antara cinta, karier, atau keponakan-keponakannya.",
       "favorit": false,
     },
-     {
+    {
       "id": 3,
       "judul": "Perayaan Mati Rasa",
       "tahun": "2025",
@@ -53,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     {
       "id": 4,
       "judul": "Sayap Sayap Patah",
-      "tahun": "2021",
+      "tahun": "2022",
       "genre": "Aksi",
       "gambar": "assets/images/s_s_p.jpeg",
       "sinopsis":
@@ -100,6 +97,26 @@ class _MyAppState extends State<MyApp> {
           "Bayu khawatir akan masa depan Yowis Ben karena Nando dan Cak Jon berencana mengejar impian mereka yang lain. Keadaan bertambah buruk ketika Asih menuduhnya selingkuh dengan wanita lain.",
       "favorit": false,
     },
+    {
+      "id": 9,
+      "judul": "Komang",
+      "tahun": "2025",
+      "genre": "Asmara",
+      "gambar": "assets/images/komang.jpg", 
+      "sinopsis":
+          "Raim, pemuda dari Buton, jatuh hati pada Komang Ade, seorang gadis Bali. Keduanya begitu bahagia, jalinan cinta mereka berjalan mulus. Namun seiring waktu, mereka harus menghadapi kenyataan dan tantangan besar - yaitu perbedaan keyakinan.",
+      "favorit": false,
+    },
+    {
+      "id": 10,
+      "judul": "Perewangan",
+      "tahun": "2024",
+      "genre": "Horor",
+      "gambar": "assets/images/perewangan.jpeg", 
+      "sinopsis":
+          "Maya terpukul ketika ibunya meninggal akibat penyakit misterius. Tak lama, sesosok makhluk gaib membuat ayahnya kehilangan nyawa. Meskipun hidupnya terguncang, ia bertekad untuk melawan dan menguak serangkaian teror yang mengintai keluarganya.",
+      "favorit": false,
+    },
   ];
 
   void toggleFavorite(int id) {
@@ -115,7 +132,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final screens = [
       HomeScreen(films: films, toggleFavorite: toggleFavorite),
-      FavoriteScreen(films: films),
+      FavoriteScreen(films: films, toggleFavorite: toggleFavorite),
     ];
 
     return MaterialApp(

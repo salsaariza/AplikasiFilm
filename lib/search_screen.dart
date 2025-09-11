@@ -5,7 +5,11 @@ class SearchScreen extends StatefulWidget {
   final List<Map<String, dynamic>> films;
   final Function(int) toggleFavorite;
 
-  const SearchScreen({super.key, required this.films, required this.toggleFavorite});
+  const SearchScreen({
+    super.key,
+    required this.films,
+    required this.toggleFavorite,
+  });
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -41,10 +45,20 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-        backgroundColor: const Color.fromARGB(255, 20, 47, 93),
-        foregroundColor: Colors.white, 
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          child: AppBar(
+            title: const Text(''),
+            backgroundColor: const Color.fromARGB(255, 20, 47, 93),
+            foregroundColor: Colors.white,
+            centerTitle: true,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -53,8 +67,8 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Cari film...',
-                prefixIcon: Icon(Icons.search),
+                hintText: 'Cari film',
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -141,7 +155,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                           film["favorit"]
                                               ? Icons.favorite
                                               : Icons.favorite_border,
-                                          color: film["favorit"] ? Colors.red : Colors.grey,
+                                          color: film["favorit"]
+                                              ? Colors.red
+                                              : Colors.grey,
                                         ),
                                         onPressed: () {
                                           widget.toggleFavorite(film["id"]);
